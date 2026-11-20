@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spott Web Player</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-black text-white font-sans antialiased overflow-hidden select-none">
+  <div class="flex h-screen flex-col">
+    <div class="flex flex-1 overflow-hidden p-2 gap-2">
+      <aside class="w-64 bg-[#121212] rounded-xl flex flex-col justify-between p-4 flex-shrink-0">
+        <div class="flex flex-col gap-6">
+          <div class="flex items-center gap-2 px-2 cursor-pointer">
+            <i class="fa-brands fa-spotify text-green-500 text-3xl"></i>
+            <span class="font-bold text-xl tracking-tight">Spott Web</span>
+          </div>
+
+          <nav class="flex flex-col gap-3">
+            <button id="navHome" class="flex items-center gap-4 text-white font-semibold py-2 px-3 rounded-lg hover:bg-neutral-800 transition">
+              <i class="fa-solid fa-house text-lg"></i>
+              <span>Início</span>
+            </button>
+            <button id="navSpotifyPlaylist" class="flex items-center gap-4 text-neutral-400 font-semibold py-2 px-3 rounded-lg hover:text-white hover:bg-neutral-800 transition">
+              <i class="fa-solid fa-compact-disc text-lg text-green-500"></i>
+              <span>Minha Playlist</span>
+            </button>
+            <button id="navLocal" class="flex items-center gap-4 text-neutral-400 font-semibold py-2 px-3 rounded-lg hover:text-white hover:bg-neutral-800 transition">
+              <i class="fa-solid fa-folder-music text-lg"></i>
+              <span>Músicas Locais</span>
+            </button>
+          </nav>
+
+          <div class="border-t border-neutral-800 pt-4 flex flex-col gap-2">
+            <div class="text-xs uppercase font-bold text-neutral-400 px-3 tracking-wider">Playlists</div>
+            <div class="flex flex-col gap-1 max-h-56 overflow-y-auto pr-1">
+              <div id="quickPlaylistLink" class="text-sm text-neutral-300 hover:text-white cursor-pointer py-1.5 px-3 rounded hover:bg-neutral-800 truncate transition">
+                Playlist Pessoal (Spotify)
+              </div>
+              <div id="quickLocalLink" class="text-sm text-neutral-300 hover:text-white cursor-pointer py-1.5 px-3 rounded hover:bg-neutral-800 truncate transition">
+                Biblioteca Local
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-3 bg-neutral-900 rounded-lg flex flex-col gap-2 border border-neutral-800">
+          <span class="text-xs font-semibold text-neutral-400">Adicionar Músicas</span>
+          <label class="cursor-pointer bg-neutral-800 hover:bg-neutral-700 text-xs font-medium text-center py-2 px-3 rounded-full transition flex items-center justify-center gap-2">
+            <i class="fa-solid fa-upload"></i>
+            <span>Importar MP3</span>
+            <input type="file" id="audioFileInput" accept="audio/*" multiple class="hidden">
+          </label>
+        </div>
+      </aside>
+
+      <main class="flex-1 bg-[#121212] rounded-xl overflow-y-auto flex flex-col relative custom-scroll">
+        <header class="sticky top-0 z-20 bg-[#121212]/80 backdrop-blur-md px-6 py-4 flex items-center justify-between border-b border-neutral-800/50">
+          <div class="flex items-center gap-4">
+            <button class="w-8 h-8 rounded-full bg-black/60 flex items-center justify-center text-neutral-400 hover:text-white">
+              <i class="fa-solid fa-chevron-left text-sm"></i>
+            </button>
+            <button class="w-8 h-8 rounded-full bg-black/60 flex items-center justify-center text-neutral-400 hover:text-white">
+              <i class="fa-solid fa-chevron-right text-sm"></i>
+            </button>
+          </div>
+          <div class="flex items-center gap-3">
+            <button id="viewToggleBtn" class="bg-green-500 hover:bg-green-400 text-black font-semibold text-xs px-4 py-2 rounded-full transition flex items-center gap-2">
+              <i class="fa-solid fa-sliders"></i>
+              <span id="viewToggleLabel">Ver Playlist Spotify</span>
+            </button>
+            <div class="w-8 h-8 rounded-full bg-neutral-800 flex items-center justify-center text-neutral-300 font-bold text-sm">
+              U
+            </div>
+          </div>
+        </header>
+
+        <section id="spotifySection" class="p-6 flex-1 flex flex-col gap-4">
+          <div class="flex flex-col md:flex-row items-start md:items-end gap-6 bg-gradient-to-b from-emerald-900/60 to-transparent p-6 rounded-2xl border border-neutral-800">
+            <div class="w-44 h-44 bg-neutral-900 shadow-2xl rounded-xl flex items-center justify-center border border-neutral-700 overflow-hidden flex-shrink-0">
+              <i class="fa-solid fa-music text-5xl text-neutral-600"></i>
+            </div>
+            <div class="flex flex-col gap-2">
+              <span class="text-xs uppercase font-bold text-neutral-300">Playlist Oficial</span>
+              <h1 class="text-3xl md:text-5xl font-black text-white">Minha Playlist</h1>
+              <p class="text-sm text-neutral-400">Reprodução direta sincronizada com o player oficial do Spotify</p>
+            </div>
+          </div>
+
+          <div class="w-full flex-1 min-h-[460px] bg-neutral-900 rounded-xl overflow-hidden border border-neutral-800 shadow-inner">
+            <iframe id="spotifyIframe"
+                    style="border-radius:12px"
+                    src="https://open.spotify.com/embed/playlist/6MFBtaq1ecfdwOOBvPhueb?utm_source=generator&theme=0"
+                    width="100%"
+                    height="100%"
+                    frameBorder="0"
+                    allowfullscreen=""
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                    loading="lazy">
+            </iframe>
+          </div>
+        </section>
+
+        <section id="localSection" class="hidden p-6 flex-1 flex flex-col gap-6">
+          <div class="flex flex-col md:flex-row items-start md:items-end gap-6 bg-gradient-to-b from-purple-900/60 to-transparent p-6 rounded-2xl border border-neutral-800">
+            <div class="w-44 h-44 bg-purple-950 shadow-2xl rounded-xl flex items-center justify-center border border-neutral-700 flex-shrink-0">
+              <i class="fa-solid fa-headphones text-5xl text-purple-300"></i>
+            </div>
+            <div class="flex flex-col gap-2">
+              <span class="text-xs uppercase font-bold text-neutral-300">Coleção Local</span>
+              <h1 class="text-3xl md:text-5xl font-black text-white">Músicas no Navegador</h1>
+              <p class="text-sm text-neutral-400">Faixas carregadas localmente no seu player com controle de reprodução nativo</p>
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <div class="grid grid-cols-12 text-xs font-semibold uppercase text-neutral-400 px-4 py-2 border-b border-neutral-800">
+              <div class="col-span-1">#</div>
+              <div class="col-span-6">Título</div>
+              <div class="col-span-3">Origem</div>
+              <div class="col-span-2 text-right">Duração</div>
+            </div>
+            <div id="trackList" class="flex flex-col gap-1"></div>
+            <div id="emptyNotice" class="text-center py-12 text-neutral-500 text-sm">
+              Nenhuma música local adicionada ainda. Clique em "Importar MP3" na barra lateral para carregar arquivos de áudio.
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <footer class="h-24 bg-black border-t border-neutral-900 px-4 flex items-center justify-between">
+      <div class="flex items-center gap-3 w-1/4 min-w-[200px]">
+        <div id="nowPlayingCover" class="w-14 h-14 bg-neutral-800 rounded-md flex items-center justify-center flex-shrink-0">
+          <i class="fa-solid fa-music text-neutral-500"></i>
+        </div>
+        <div class="flex flex-col truncate">
+          <span id="nowPlayingTitle" class="text-sm font-semibold truncate text-white">Nenhuma faixa selecionada</span>
+          <span id="nowPlayingArtist" class="text-xs text-neutral-400 truncate">Spott Player</span>
+        </div>
+      </div>
+
+      <div class="flex flex-col items-center gap-2 w-2/4 max-w-xl">
+        <div class="flex items-center gap-5">
+          <button id="btnPrev" class="text-neutral-400 hover:text-white transition">
+            <i class="fa-solid fa-backward-step text-lg"></i>
+          </button>
+          <button id="btnPlay" class="w-10 h-10 rounded-full bg-white hover:scale-105 text-black flex items-center justify-center transition">
+            <i id="playIcon" class="fa-solid fa-play ml-0.5"></i>
+          </button>
+          <button id="btnNext" class="text-neutral-400 hover:text-white transition">
+            <i class="fa-solid fa-forward-step text-lg"></i>
+          </button>
+        </div>
+        <div class="flex items-center gap-2 w-full text-xs text-neutral-400">
+          <span id="currentTime">0:00</span>
+          <div class="flex-1 h-1 bg-neutral-800 hover:h-1.5 rounded-full cursor-pointer relative group" id="progressBar">
+            <div id="progressCurrent" class="h-full bg-white group-hover:bg-green-500 rounded-full w-0"></div>
+          </div>
+          <span id="totalDuration">0:00</span>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-end gap-3 w-1/4 min-w-[200px]">
+        <button id="btnMute" class="text-neutral-400 hover:text-white">
+          <i id="volumeIcon" class="fa-solid fa-volume-high"></i>
+        </button>
+        <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.8" class="w-24 accent-green-500 h-1 bg-neutral-700 rounded-lg cursor-pointer">
+      </div>
+    </footer>
+  </div>
+
+  <audio id="audioElement"></audio>
+  <script src="app.js"></script>
+</body>
+</html>
